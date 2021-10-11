@@ -1,5 +1,10 @@
+**/.DS_Store
+.metadata/
+
 # Compiled class file
 *.class
+
+**/images/
 
 # Log file
 *.log
