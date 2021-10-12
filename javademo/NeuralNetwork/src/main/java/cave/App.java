@@ -1,15 +1,26 @@
 package cave;
 
+import java.io.File;
+
 import cave.mnist.ImageLoader;
 import cave.mnist.Loader;
 
 public class App {
 
 	public static void main(String[] args) {
+		
+		if(args.length == 0) {
+			System.out.println("usage: gradle run --args=<MNIST data directory>");
+			return;
+		}
 
 		int batchSize = 32;
 
-		var directory = "../data/MNIST/";
+		var directory = args[0];
+		
+		if(!directory.substring(directory.length() - 1).equals(File.separator)) {
+			directory = directory + File.separator;
+		}
 
 		var trainImageFile = String.format("%s%s", directory, "train-images-idx3-ubyte");
 		var trainLabelFile = String.format("%s%s", directory, "train-labels-idx1-ubyte");
