@@ -1,8 +1,12 @@
 package cave.neuralnetwork;
 
-/**
- * Hello world!
- *
+
+/*
+ * INPUT	AND		OR	XOR		NOR		NAND  	XNOR
+ * 00		0		0	0		1		1	  	1
+ * 01		0		1	1		0		1	 	0
+ * 10		0		1	1		0		1		0
+ * 11		1		1	0		0		0		1
  */
 public class App 
 {
@@ -32,4 +36,5 @@ public class App
         // print activation (output)
         System.out.println(a);
     }
+ 
 }
