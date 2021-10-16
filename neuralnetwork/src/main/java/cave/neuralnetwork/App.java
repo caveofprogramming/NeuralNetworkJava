@@ -34,7 +34,7 @@ public class App {
 	}
 
 	static double xor(double x1, double x2) {
-		return neuron(new double[] { x1, x2 }, new double[] { 1, 1 }, -1);
+		return and(or(x1, x2), nand(x1, x2));
 	}
 
 	static double nor(double x1, double x2) {
@@ -46,7 +46,7 @@ public class App {
 	}
 
 	static double xnor(double x1, double x2) {
-		return neuron(new double[] { x1, x2 }, new double[] { 1, 1 }, -1);
+		return or(and(x1, x2), nor(x1, x2));
 	}
 
 	public static void main(String[] args) {
@@ -54,7 +54,7 @@ public class App {
 			double x1 = i / 2;
 			double x2 = i % 2;
 
-			double output = nor(x1, x2);
+			double output = xnor(x1, x2);
 
 			System.out.printf("%d%d\t%d\n", (int) x1, (int) x2, (int) output);
 		}
