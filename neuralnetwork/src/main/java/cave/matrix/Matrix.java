@@ -1,8 +1,12 @@
 package cave.matrix;
 
+import java.util.Arrays;
+import java.util.Objects;
+
 public class Matrix {
 	
 	private static final String NUMBER_FORMAT = "%+12.5f";
+	private static final double TOLERANCE = 0.000001;
 	
 	private int rows;
 	private int cols;
@@ -43,6 +47,35 @@ public class Matrix {
 		return result;
 	}
 	
+	
+	@Override
+	public int hashCode() {
+		final int prime = 31;
+		int result = 1;
+		result = prime * result + Arrays.hashCode(a);
+		result = prime * result + Objects.hash(cols, rows);
+		return result;
+	}
+
+	@Override
+	public boolean equals(Object obj) {
+		if (this == obj)
+			return true;
+		if (obj == null)
+			return false;
+		if (getClass() != obj.getClass())
+			return false;
+		Matrix other = (Matrix) obj;
+		
+		for(int i =0; i < a.length; i++) {
+			if(Math.abs(a[i] - other.a[i]) > TOLERANCE) {
+				return false;
+			}
+		}
+		 
+		return true;
+	}
+
 	public String toString() {
 		StringBuilder sb = new StringBuilder();
 		
