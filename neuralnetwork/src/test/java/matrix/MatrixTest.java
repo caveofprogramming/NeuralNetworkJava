@@ -9,7 +9,7 @@ import cave.matrix.Matrix;
 class MatrixTest {
 
 	@Test
-	public void constructionTest() {
+	public void testToString() {
 		Matrix m = new Matrix(3, 4, i->i*2);
 		
 		String text = m.toString();
