@@ -25,11 +25,13 @@ class MatrixTest {
 		Matrix m = new Matrix(3, 4, i -> 0.5 * (i - 6));
 		
 		double x = 0.5;
+		Matrix expected = new Matrix(3, 4, i -> x * 0.5 * (i - 6));
 		
 		Matrix result = m.apply((index, value)->x * value);
-				
-		System.out.println(m);
-		System.out.println(result);
+		
+		assertTrue(result.equals(expected));
+		
+		assertTrue(Math.abs(result.get(1) + 1.25000) < 0.0001);
 	}
 
 	@Test
