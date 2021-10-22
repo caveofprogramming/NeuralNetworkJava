@@ -19,6 +19,17 @@ class MatrixTest {
 		
 		assertFalse(m1.equals(m3));
 	}
+	
+	@Test
+	public void testAddMatrices() {
+		Matrix m1 = new Matrix(2, 2, i->i);
+		Matrix m2 = new Matrix(2, 2, i->i * 1.5);
+		Matrix expected = new Matrix(2, 2, i->i * 2.5);
+		
+		Matrix result = m1.apply((index, value)->value + m2.get(index));
+		
+		assertTrue(expected.equals(result));	
+	}
 
 	@Test
 	public void testMultiplyDouble() {
