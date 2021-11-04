@@ -10,6 +10,16 @@ import cave.matrix.Matrix;
 class MatrixTest {
 	
 	@Test
+	public void testMultiply() {
+		Matrix m1 = new Matrix(2, 3, i->i);
+		Matrix m2 = new Matrix(3, 2, i->i);
+		
+		Matrix result = m1.multiply(m2);
+		
+		
+	}
+	
+	@Test
 	public void testEquals() {
 		Matrix m1 = new Matrix(3, 4, i -> 0.5 * (i - 6));
 		Matrix m2 = new Matrix(3, 4, i -> 0.5 * (i - 6));

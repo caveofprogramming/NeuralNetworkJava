@@ -47,6 +47,14 @@ public class Matrix {
 		return result;
 	}
 	
+	public Matrix multiply(Matrix m) {
+		Matrix result = new Matrix(rows, m.cols);
+		
+		assert cols == m.rows: "Cannot multiply; wrong number of rows vs cols";
+		
+		return result;
+	}
+	
 	public double get(int index) {
 		return a[index];
 	}
