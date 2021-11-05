@@ -54,12 +54,10 @@ public class Matrix {
 		
 		for(int row = 0; row < result.rows; row++) {
 			for(int col = 0; col < result.cols; col++) {
-				result.a[row * result.cols + col] = 7.0;
-				
+			
 				for(int n = 0; n < cols; n++) {
-					System.out.println(a[row * cols + n] + " ");
-				}
-				System.out.println();
+					result.a[row * result.cols + col] += a[row * cols + n] * m.a[col + n * m.cols];
+				} 
 			}
 		}
 	
