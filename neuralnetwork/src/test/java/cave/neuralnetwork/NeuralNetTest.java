@@ -39,14 +39,20 @@ class NeuralNetTest {
 		Matrix weights = new Matrix(numberNeurons, inputSize, i -> random.nextGaussian());
 		Matrix biases = new Matrix(numberNeurons, 1, i -> random.nextGaussian());
 
-		Matrix result = weights.multiply(input).modify((row, col, value) -> value + biases.get(row));
+		Matrix result1 = weights.multiply(input).modify((row, col, value) -> value + biases.get(row));
+		Matrix result2 = weights.multiply(input).modify((row, col, value) -> value + biases.get(row)).modify(value -> value > 0 ? value: 0);
 		
-		System.out.println(input);
-		System.out.println(weights);
-		System.out.println(biases);
-		System.out.println(result);
+		result2.forEach((index, value)->{
+			double originalValue = result1.get(index);
+			
+			if(originalValue > 0) {
+				assertTrue(Math.abs(originalValue - value) < 0.000001);
+			}
+			else {
+				assertTrue(Math.abs(value) < 0.000001);
+			}
+		});
 
-		
 	}
 
 }
