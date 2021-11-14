@@ -107,6 +107,20 @@ public class Matrix {
 		return result;
 	}
 
+	public Matrix sumColumns() {
+		Matrix result = new Matrix(1, cols);
+		
+		int index = 0;
+
+		for (int row = 0; row < rows; row++) {
+			for (int col = 0; col < cols; col++) {
+				result.a[col] += a[index++];
+			}
+		}
+
+		return result;
+	}
+
 	public double get(int index) {
 		return a[index];
 	}
