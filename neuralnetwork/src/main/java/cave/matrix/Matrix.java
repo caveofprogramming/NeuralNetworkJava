@@ -52,6 +52,14 @@ public class Matrix {
 			a[i] = producer.produce(i);
 		}
 	}
+	
+	public int getRows() {
+		return rows;
+	}
+	
+	public int getCols() {
+		return cols;
+	}
 
 	public Matrix apply(IndexValueProducer producer) {
 		Matrix result = new Matrix(rows, cols);

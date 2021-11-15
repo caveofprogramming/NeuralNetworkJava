@@ -13,14 +13,19 @@ class NeuralNetTest {
 	
 	@Test
 	void testTemp() {
-		Engine engine = new Engine();
 		
-		engine.add(Transform.DENSE);
-		engine.add(Transform.RELU);
-		engine.add(Transform.DENSE);
-		engine.add(Transform.SOFTMAX);
+		int inputSize = 5;
+		int layer1Size = 6;
+		int layer2Size = 4;
 		
-		System.out.println(engine);
+		Matrix input = new Matrix(inputSize, 1, i->random.nextGaussian());
+
+		Matrix layer1Weights = new Matrix(layer1Size, input.getRows(), i->random.nextGaussian());
+		Matrix layer1biases = new Matrix(layer1Size, 1, i->random.nextGaussian());
+		
+		Matrix layer2Weights = new Matrix(layer2Size, layer1Weights.getRows(), i->random.nextGaussian());
+		Matrix layer2biases = new Matrix(layer2Size, 1, i->random.nextGaussian());
+		
 	}
 
 	@Test
