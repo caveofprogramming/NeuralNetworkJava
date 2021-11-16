@@ -9,6 +9,32 @@ public class Engine {
 	private LinkedList<Transform> transforms = new LinkedList<>();
 	private LinkedList<Matrix> weights = new LinkedList<>();
 	private LinkedList<Matrix> biases = new LinkedList<>();
+	
+	Matrix runForwards(Matrix input) {
+		Matrix output = input;
+		
+		int denseIndex = 0;
+		
+		for(var t: transforms) {
+			if(t == Transform.DENSE) {
+				
+				Matrix weight = weights.get(denseIndex);
+				Matrix bias = biases.get(denseIndex);
+				
+				output = weight.multiply(output).modify((row, col, value) -> value + bias.get(row));
+						
+				++denseIndex;
+			}
+			else if(t == Transform.RELU) {
+				output = output.modify(value -> value > 0 ? value: 0);
+			}
+			else if(t == Transform.SOFTMAX) {
+				output = output.softmax();
+			}
+		}
+		
+		return output;
+	}
 
 	public void add(Transform transform, double... params) {
 		
