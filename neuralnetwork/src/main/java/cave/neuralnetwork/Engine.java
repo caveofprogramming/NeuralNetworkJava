@@ -31,8 +31,18 @@ public class Engine {
 	public String toString() {
 		StringBuilder sb = new StringBuilder();
 
+		int weightIndex = 0;
 		for (var t : transforms) {
-			sb.append(t).append("\n");
+			
+			sb.append(t);
+			
+			if(t == Transform.DENSE) {
+				sb.append(" ").append(weights.get(weightIndex).toString(false));
+				
+				weightIndex++;
+			}
+			
+			sb.append("\n");
 		}
 
 		return sb.toString();
