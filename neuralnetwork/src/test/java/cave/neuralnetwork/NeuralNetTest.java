@@ -12,6 +12,18 @@ class NeuralNetTest {
 	private Random random = new Random();
 	
 	@Test
+	void testCrossEntropy() {
+		double[] expectedValues = {1, 0, 0, 0, 0, 1, 0, 1, 0};
+		Matrix expected = new Matrix(3, 3, i->expectedValues[i]);
+		
+		System.out.println(expected);
+		
+		Matrix actual = new Matrix(3, 3, i->0.05 * i*i).softmax();
+		
+		System.out.println(actual);
+	}
+	
+	//@Test
 	void testEngine() {
 		Engine engine = new Engine();
 		
