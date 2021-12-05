@@ -27,7 +27,9 @@ class NeuralNetTest {
 			expected.set(randomRow, col, 1);
 		}
 		
-		Approximator.gradient(input, null);
+		Approximator.gradient(input, in->{
+			return LossFunction.crossEntropy(expected, in);
+		});
 		
 		System.out.println();
 		System.out.println(input);
