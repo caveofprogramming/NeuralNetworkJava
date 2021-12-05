@@ -174,6 +174,23 @@ public class Matrix {
 	public void set(int row, int col, double value) {
 		a[row * cols + col] = value;
 	}
+	
+	public double get(int row, int col) {
+		return a[row * cols + col];
+	}
+	
+	public Matrix addIncrement(int row, int col, double increment) {
+		
+		Matrix result = apply((index, value)->a[index]);
+		
+		double originalValue = get(row, col);
+		
+		double newValue = originalValue + increment;
+		
+		result.set(row, col, newValue);
+		
+		return result;
+	}
 
 	public double get(int index) {
 		return a[index];

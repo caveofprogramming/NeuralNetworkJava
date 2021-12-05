@@ -14,6 +14,23 @@ class MatrixTest {
 	private Random random = new Random();
 	
 	@Test
+	public void testAddIncrement() {
+		Matrix m = new Matrix(5, 8, i->random.nextGaussian());
+		
+		int row = 3;
+		int col = 2;
+		double inc = 10;
+		
+		Matrix result = m.addIncrement(row, col, inc);
+		
+		double incrementedValue = result.get(row, col);
+		double originalValue = m.get(row, col);
+		
+		assertTrue(Math.abs(incrementedValue - (originalValue + inc)) < 0.00001);
+		
+	}
+	
+	@Test
 	public void testSoftmax() {
 		Matrix m = new Matrix(5, 8, i->random.nextGaussian());
 		
