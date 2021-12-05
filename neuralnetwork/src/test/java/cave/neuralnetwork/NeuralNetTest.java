@@ -19,10 +19,20 @@ class NeuralNetTest {
 		
 		Matrix input = new Matrix(rows, cols, i->random.nextGaussian());
 		
+		Matrix expected = new Matrix(rows, cols, i->0);
+		
+		for(int col = 0; col < cols; col++) {
+			int randomRow = random.nextInt(rows);
+			
+			expected.set(randomRow, col, 1);
+		}
+		
 		Approximator.gradient(input, null);
 		
 		System.out.println();
 		System.out.println(input);
+		
+		System.out.println(expected);
 	}
 	
 	@Test
