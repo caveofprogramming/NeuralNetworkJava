@@ -17,7 +17,7 @@ class NeuralNetTest {
 		final int rows = 4;
 		final int cols = 5;
 		
-		Matrix input = new Matrix(rows, cols, i->random.nextGaussian());
+		Matrix input = new Matrix(rows, cols, i->random.nextGaussian()).softmax();
 		
 		Matrix expected = new Matrix(rows, cols, i->0);
 		
@@ -31,9 +31,7 @@ class NeuralNetTest {
 			return LossFunction.crossEntropy(expected, in);
 		});
 		
-		System.out.println();
-		System.out.println(input);
-		
+
 		System.out.println(expected);
 	}
 	
