@@ -14,8 +14,12 @@ public class Calculus {
 		return x * x - 3.23;
 	}
 	
-	public static double func3(double x) {
-		return func2(func1(x));
+	public static double func3(double y1, double y2) {
+		return y1 * y2 + 4.7 * y1;
+	}
+	
+	public static double func4(double x) {
+		return func1(x) * func2(x) + 4.7 * func1(x);
 	}
 	
 	public static double differentiate(DoubleFunction<Double> func, double x) {
@@ -29,26 +33,23 @@ public class Calculus {
 
 	public static void main(String[] args) {
 		
-		double x = 3.64;
-		double y = func1(x);
-		double z = func2(y);
+		double x = 2.76;
+		double y1 = func1(x);
+		double y2 = func2(x);
+		double z = func3(y1, y2);
 		
-		/*
-		System.out.println(x);
-		System.out.println(y);
-		System.out.println(z);
-		System.out.println(func2(func1(x)));
-		System.out.println(func3(x));
-		*/
 		
-		double dydx = differentiate(Calculus::func1, x);
-		double dzdy = differentiate(Calculus::func2, y);
-		double dzdx = differentiate(Calculus::func3, x);
+		double dy1dx = differentiate(Calculus::func1, x);
+		double dy2dx = differentiate(Calculus::func2, x);
+		double dzdy1 = differentiate(y->func3(y, y2), y1);
+		double dzdy2 = differentiate(y->func3(y1, y), y2);
 		
-		System.out.println(dydx);
-		System.out.println(dzdy);
-		System.out.println(dzdx);
-		System.out.println(dzdy * dydx);
+		double dzdxCalculated = (dzdy1 * dy1dx) + (dzdy2 * dy2dx);
+		
+		double dzdxApproximated = differentiate(Calculus::func4, x);
+		
+		System.out.println(dzdxCalculated);
+		System.out.println(dzdxApproximated);
 		
 		
 	}
