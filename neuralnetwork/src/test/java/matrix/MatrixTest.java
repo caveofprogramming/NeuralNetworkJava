@@ -14,6 +14,18 @@ class MatrixTest {
 	private Random random = new Random();
 	
 	@Test
+	public void testTranspose() {
+		Matrix m = new Matrix(2, 3, i->i);
+		
+		Matrix result = m.transpose();
+		
+		double[] expectedValues = {0, 3, 1, 4, 2, 5};
+		Matrix expected = new Matrix(3, 2, i->expectedValues[i]);
+		
+		assertTrue(expected.equals(result));
+	}
+	
+	@Test
 	public void testAddIncrement() {
 		Matrix m = new Matrix(5, 8, i->random.nextGaussian());
 		
