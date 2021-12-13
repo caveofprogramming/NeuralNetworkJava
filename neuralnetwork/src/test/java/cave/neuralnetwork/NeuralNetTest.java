@@ -31,14 +31,16 @@ class NeuralNetTest {
 			expected.set(randomRow, col, 1);
 		}
 		
-		Matrix softmaxOutput = input.softmax();
+		Matrix softmaxOutput = weights.multiply(input).modify((row, col, value)->value + biases.get(row)).softmax();
 		
 		Matrix approximatedResult = Approximator.gradient(input, in->{
+			in = weights.multiply(in).modify((row, col, value)->value + biases.get(row));
 			return LossFunction.crossEntropy(expected, in.softmax());
 		});
 		
 		Matrix calculatedResult = softmaxOutput.apply((index, value)->value - expected.get(index));
-		
+		calculatedResult = weights.transpose().multiply(calculatedResult);
+
 		assertTrue(approximatedResult.equals(calculatedResult));
 		
 	}
