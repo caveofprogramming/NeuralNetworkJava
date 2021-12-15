@@ -146,6 +146,11 @@ class NeuralNetTest {
 	
 	@Test
 	void testEngine() {
+		
+		int inputRows = 5;
+		int cols = 6;
+		int outputRows = 4;
+		
 		Engine engine = new Engine();
 		
 		engine.add(Transform.DENSE, 8, 5);
@@ -155,10 +160,11 @@ class NeuralNetTest {
 		engine.add(Transform.DENSE, 4);
 		engine.add(Transform.SOFTMAX);
 		
-		Matrix input = new Matrix(5, 4, i->random.nextGaussian());
+		Matrix input = Util.generateInputMatrix(inputRows, cols);
+		Matrix expected = Util.generateExpectedMatrix(outputRows, cols);
 		
-		Matrix output = engine.runForwards(input);
-		engine.runBackwards(null);
+		BatchResult batchResult = engine.runForwards(input);
+		engine.runBackwards(batchResult, expected);
 	}
 	
 	//@Test
