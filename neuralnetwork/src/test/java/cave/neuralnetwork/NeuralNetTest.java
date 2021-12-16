@@ -12,6 +12,29 @@ class NeuralNetTest {
 	private Random random = new Random();
 	
 	@Test
+	void testEngine() {
+		
+		int inputRows = 5;
+		int cols = 6;
+		int outputRows = 4;
+		
+		Engine engine = new Engine();
+		
+		engine.add(Transform.DENSE, 8, 5);
+		engine.add(Transform.RELU);
+		engine.add(Transform.DENSE, 5);
+		engine.add(Transform.RELU);
+		engine.add(Transform.DENSE, 4);
+		engine.add(Transform.SOFTMAX);
+		
+		Matrix input = Util.generateInputMatrix(inputRows, cols);
+		Matrix expected = Util.generateExpectedMatrix(outputRows, cols);
+		
+		BatchResult batchResult = engine.runForwards(input);
+		engine.runBackwards(batchResult, expected);
+	}
+	
+	@Test
 	void testBackprop() {
 		
 		interface NeuralNet {
@@ -47,7 +70,7 @@ class NeuralNetTest {
 		
 		Matrix approximatedResult = Approximator.gradient(input, in->{
 			Matrix out = neuralNet.apply(in);
-			return LossFunction.crossEntropy(expected, out);
+			return LossFunctions.crossEntropy(expected, out);
 		});
 		
 		Matrix calculatedResult = softmaxOutput.apply((index, value)->value - expected.get(index));
@@ -78,7 +101,7 @@ class NeuralNetTest {
 		Matrix softmaxOutput = input.softmax();
 		
 		Matrix result = Approximator.gradient(input, in->{
-			return LossFunction.crossEntropy(expected, in.softmax());
+			return LossFunctions.crossEntropy(expected, in.softmax());
 		});
 		
 		result.forEach((index, value)->{
@@ -107,7 +130,7 @@ class NeuralNetTest {
 		}
 		
 		Matrix result = Approximator.gradient(input, in->{
-			return LossFunction.crossEntropy(expected, in);
+			return LossFunctions.crossEntropy(expected, in);
 		});
 		
 		input.forEach((index, value)->{
@@ -131,7 +154,7 @@ class NeuralNetTest {
 		
 		Matrix actual = new Matrix(3, 3, i->0.05 * i*i).softmax();
 		
-		Matrix result = LossFunction.crossEntropy(expected, actual);
+		Matrix result = LossFunctions.crossEntropy(expected, actual);
 		
 		actual.forEach((row, col, index, value)->{
 			double expectedValue = expected.get(index);
@@ -144,28 +167,7 @@ class NeuralNetTest {
 		});
 	}
 	
-	@Test
-	void testEngine() {
-		
-		int inputRows = 5;
-		int cols = 6;
-		int outputRows = 4;
-		
-		Engine engine = new Engine();
-		
-		engine.add(Transform.DENSE, 8, 5);
-		engine.add(Transform.RELU);
-		engine.add(Transform.DENSE, 5);
-		engine.add(Transform.RELU);
-		engine.add(Transform.DENSE, 4);
-		engine.add(Transform.SOFTMAX);
-		
-		Matrix input = Util.generateInputMatrix(inputRows, cols);
-		Matrix expected = Util.generateExpectedMatrix(outputRows, cols);
-		
-		BatchResult batchResult = engine.runForwards(input);
-		engine.runBackwards(batchResult, expected);
-	}
+	
 	
 	//@Test
 	void testTemp() {
