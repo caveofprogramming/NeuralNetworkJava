@@ -16,6 +16,10 @@ public class BatchResult {
 	public void addIo(Matrix m) {
 		io.add(m);
 	}
+	
+	public Matrix getOutput() {
+		return io.getLast();
+	}
 
 	public LinkedList<Matrix> getWeightErrors() {
 		return weightErrors;
