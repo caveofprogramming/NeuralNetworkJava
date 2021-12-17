@@ -62,12 +62,15 @@ public class Engine {
 		while(transformsIt.hasNext()) {
 			Transform transform = transformsIt.next();
 			
+			Matrix input = ioIt.next();
+			
 			switch(transform) {
 			case DENSE:
 				Matrix weight = weightIt.next();
 				error = weight.transpose().multiply(error);
 				break;
 			case RELU:
+				error = error.apply((index, value)->input.get(index) > 0 ? value: 0);
 				break;
 			case SOFTMAX:
 				break;
@@ -75,7 +78,7 @@ public class Engine {
 				throw new UnsupportedOperationException("Not implemented");
 			}
 			
-			System.out.println(transform);
+			//System.out.println(transform);
 		}
 		
 		if(storeInputError) {
