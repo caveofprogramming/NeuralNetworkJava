@@ -6,7 +6,7 @@ import java.util.Objects;
 public class Matrix {
 
 	private static final String NUMBER_FORMAT = "%+12.5f";
-	private static final double TOLERANCE = 0.000001;
+	private double tolerance = 0.000001;
 
 	private int rows;
 	private int cols;
@@ -218,6 +218,12 @@ public class Matrix {
 	public double get(int index) {
 		return a[index];
 	}
+	
+	
+
+	public void setTolerance(double tolerance) {
+		this.tolerance = tolerance;
+	}
 
 	@Override
 	public int hashCode() {
@@ -239,7 +245,7 @@ public class Matrix {
 		Matrix other = (Matrix) obj;
 
 		for (int i = 0; i < a.length; i++) {
-			if (Math.abs(a[i] - other.a[i]) > TOLERANCE) {
+			if (Math.abs(a[i] - other.a[i]) > tolerance) {
 				return false;
 			}
 		}

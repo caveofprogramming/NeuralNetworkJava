@@ -16,17 +16,17 @@ class NeuralNetTest {
 		
 		int inputRows = 5;
 		int cols = 6;
-		int outputRows = 5;
+		int outputRows = 4;
 		
 		Engine engine = new Engine();
 		
-		/*
+		
 		engine.add(Transform.DENSE, 8, 5);
-		engine.add(Transform.RELU);
+		//engine.add(Transform.RELU);
 		engine.add(Transform.DENSE, 5);
-		engine.add(Transform.RELU);
+		//engine.add(Transform.RELU);
 		engine.add(Transform.DENSE, 4);
-		*/
+		
 		engine.add(Transform.SOFTMAX);
 		engine.setStoreInputError(true);
 		
@@ -42,6 +42,8 @@ class NeuralNetTest {
 		engine.runBackwards(batchResult, expected);
 		
 		Matrix calculatedError = batchResult.getInputError();
+
+		calculatedError.setTolerance(0.01);
 		
 		assertTrue(calculatedError.equals(approximatedError));
 	}
