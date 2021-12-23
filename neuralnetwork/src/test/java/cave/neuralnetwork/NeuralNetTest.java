@@ -11,6 +11,28 @@ import cave.matrix.Matrix;
 class NeuralNetTest {
 	private Random random = new Random();
 	
+	
+	@Test
+	void testWeightGradient() {
+		
+		int inputRows = 4;
+		int outputRows = 5;
+		
+		Matrix weights = new Matrix(outputRows, inputRows, i->random.nextGaussian());
+		Matrix input = Util.generateInputMatrix(inputRows, 1);
+		Matrix expected = Util.generateExpectedMatrix(outputRows, 1);
+		
+		Matrix output = weights.multiply(input).softmax();
+		
+		Matrix loss = LossFunctions.crossEntropy(expected, output);
+		
+		Matrix calculatedError = output.apply((index, value)->value - expected.get(index));
+
+		Matrix calculatedWeightGradients = calculatedError.multiply(input.transpose());
+		
+		System.out.println(calculatedWeightGradients);
+	}
+	
 	@Test
 	void testEngine() {
 		
