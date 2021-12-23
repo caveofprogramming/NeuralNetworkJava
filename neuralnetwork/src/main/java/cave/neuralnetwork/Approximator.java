@@ -29,4 +29,26 @@ public class Approximator {
 		
 		return result;
 	}
+	
+
+	public static Matrix weightGradient(Matrix weights, Function<Matrix, Matrix> transform) {
+		
+		final double INC = 0.00000001;
+		
+		Matrix loss1 = transform.apply(weights);
+		
+		Matrix result = new Matrix(weights.getRows(), weights.getCols(), i->0);
+
+		weights.forEach((row, col, index, value)->{
+			Matrix incremented = weights.addIncrement(row, col, INC);
+			
+			Matrix loss2 = transform.apply(incremented);
+			
+			double rate = (loss2.get(0) - loss1.get(0))/INC;
+			
+			result.set(row, col, rate);
+		});
+		
+		return result;
+	}
 }
