@@ -12,6 +12,23 @@ import cave.matrix.Matrix;
 class MatrixTest {
 	
 	private Random random = new Random();
+
+	@Test
+	public void testAverageColumn() {
+		int rows = 3;
+		int cols = 4;
+		
+		Matrix m = new Matrix(rows, cols, i->2 * i - 3);
+		
+		double averageIndex = (cols - 1)/2.0;
+		
+		Matrix expected = new Matrix(rows, 1);
+		expected.modify((row, col, value)->2 * (row * cols + averageIndex) - 3);
+		
+		
+		System.out.println(m);
+		System.out.println(expected);
+	}
 	
 	@Test
 	public void testTranspose() {
