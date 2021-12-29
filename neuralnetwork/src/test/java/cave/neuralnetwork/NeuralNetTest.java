@@ -10,6 +10,16 @@ import cave.matrix.Matrix;
 
 class NeuralNetTest {
 	private Random random = new Random();
+	
+	@Test
+	void testTrainEngine() {
+		int inputRows = 5;
+		int cols = 6;
+		int outputRows = 7;
+		
+		Matrix input = Util.generateInputMatrix(inputRows, cols);
+		Matrix expected = Util.generateTrainableExpectedMatrix(outputRows, input);
+	}
 
 	@Test
 	void testWeightGradient() {
