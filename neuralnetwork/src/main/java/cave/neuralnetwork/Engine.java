@@ -65,6 +65,23 @@ public class Engine {
 		assert weightInputs.size() == weightErrors.size();
 		assert weightInputs.size() == weights.size();
 		
+		for(int i = 0; i < weights.size(); i++) {
+			var weight = weights.get(i);
+			var bias = biases.get(i);
+			var error = weightErrors.get(i);
+			var input = weightInputs.get(i);
+			
+			assert weight.getCols() == input.getRows();
+			
+			var weightAdjust = error.multiply(input.transpose());
+			var biasAdjust = error.averageColumn();
+			
+			double rate = learningRate/weight.getCols();
+			
+			weight.modify((index, value)->value - rate * weightAdjust.get(index));
+			bias.modify((row, col, value)->value - learningRate * biasAdjust.get(row));
+		}
+		
 	}
 	
 	public void runBackwards(BatchResult batchResult, Matrix expected) {
@@ -121,7 +138,7 @@ public class Engine {
 			int weightsPerNeuron = weights.size() == 0 ? (int)params[1]: weights.getLast().getRows();
 			
 			Matrix weight = new Matrix(numberNeurons, weightsPerNeuron, i->random.nextGaussian());
-			Matrix bias = new Matrix(numberNeurons, 1, i->random.nextGaussian());
+			Matrix bias = new Matrix(numberNeurons, 1, i->0);
 			
 			weights.add(weight);
 			biases.add(bias);
