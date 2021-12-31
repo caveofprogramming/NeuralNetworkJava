@@ -19,6 +19,28 @@ class NeuralNetTest {
 		
 		Matrix input = Util.generateInputMatrix(inputRows, cols);
 		Matrix expected = Util.generateTrainableExpectedMatrix(outputRows, input);
+		
+		Engine engine = new Engine();
+		engine.add(Transform.DENSE, 6, inputRows);
+		engine.add(Transform.RELU);
+		engine.add(Transform.DENSE, outputRows);
+		engine.add(Transform.SOFTMAX);
+		
+		
+		BatchResult batchResult = engine.runForwards(input);
+		engine.evaluate(batchResult, expected);
+		
+		double loss1 = batchResult.getLoss();
+		
+		engine.runBackwards(batchResult, expected);
+		engine.adjust(batchResult, 0.01);
+		batchResult = engine.runForwards(input);
+		engine.evaluate(batchResult, expected);
+		
+		double loss2 = batchResult.getLoss();
+		
+		System.out.println(loss1 + " " + loss2);
+		
 	}
 
 	@Test
