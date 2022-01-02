@@ -165,7 +165,7 @@ public class Matrix {
 		return sum;
 	}
 	
-	public Matrix getGreatestRowNumber() {
+	public Matrix getGreatestRowNumbers() {
 		Matrix result = new Matrix(1, cols);
 		
 		double[] greatest = new double[cols];

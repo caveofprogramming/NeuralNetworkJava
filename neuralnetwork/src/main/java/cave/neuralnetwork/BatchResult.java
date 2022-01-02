@@ -11,6 +11,7 @@ public class BatchResult {
 	
 	private Matrix inputError;
 	private double loss;
+	private double percentCorrect;
 	
 	public void addWeightInput(Matrix input) {
 		weightInputs.add(input);
@@ -54,6 +55,14 @@ public class BatchResult {
 	
 	public double getLoss() {
 		return loss;
+	}
+
+	public void setPercentCorrect(double percentCorrect) {
+		this.percentCorrect = percentCorrect;
+	}
+	
+	public double getPercentCorrect() {
+		return percentCorrect;
 	}
 	
 	
