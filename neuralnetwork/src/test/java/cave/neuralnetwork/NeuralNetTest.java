@@ -23,10 +23,10 @@ class NeuralNetTest {
 		engine.add(Transform.DENSE, outputRows);
 		engine.add(Transform.SOFTMAX);
 		
-		RunningAverages runningAverages = new RunningAverages(2, 10, (callNumber, averages)->{});
-		
-		System.exit(0);
-				
+		RunningAverages runningAverages = new RunningAverages(2, 50, (callNumber, averages)->{
+			System.out.printf("%d. Loss: %.3f -- Percent correct: %.2f\n", callNumber, averages[0], averages[1]);
+		});
+			
 		for (int i = 0; i < 2000; i++) {
 			var tm = Util.generateTrainingMatrixes(inputRows, outputRows, cols);
 			var input = tm.getInput();
@@ -37,10 +37,7 @@ class NeuralNetTest {
 			engine.adjust(batchResult, 0.01);
 			engine.evaluate(batchResult, expected);
 
-			double loss = batchResult.getLoss();
-			double percentCorrect = batchResult.getPercentCorrect();
-
-			System.out.printf("Loss: %.3f, %% correct: %.2f\n", loss, percentCorrect);
+			runningAverages.add(batchResult.getLoss(), batchResult.getPercentCorrect());
 		}
 	}
 
