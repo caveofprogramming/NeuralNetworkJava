@@ -23,13 +23,14 @@ class NeuralNetTest {
 		engine.add(Transform.DENSE, outputRows);
 		engine.add(Transform.SOFTMAX);
 		
-		RunningAverages runningAverages = new RunningAverages(2, 2000, (callNumber, averages)->{
-			System.out.printf("%d. Loss: %.3f -- Percent correct: %.2f\n", callNumber, averages[0], averages[1]);
+		RunningAverages runningAverages = new RunningAverages(2, 500, (callNumber, averages)->{
+			assertTrue(averages[0] < 6);
+			//System.out.printf("%d. Loss: %.3f -- Percent correct: %.2f\n", callNumber, averages[0], averages[1]);
 		});
 		
 		double initialLearningRate = 0.02;
 		double learningRate = initialLearningRate;
-		double iterations = 200000;
+		double iterations = 500;
 			
 		for (int i = 0; i < iterations; i++) {
 			var tm = Util.generateTrainingMatrixes(inputRows, outputRows, cols);
