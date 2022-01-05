@@ -57,6 +57,17 @@ public class Matrix {
 		}
 	}
 	
+	public Matrix(int rows, int cols, double[] values) {
+		
+		this.rows = rows;
+		this.cols = cols;
+		
+		Matrix tmp = new Matrix(cols, rows);
+		tmp.a = values;
+		Matrix transposed = tmp.transpose();
+		a = transposed.a;	
+	}
+	
 	public int getRows() {
 		return rows;
 	}
