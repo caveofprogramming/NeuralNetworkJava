@@ -12,9 +12,14 @@ public class Util {
 		return new Matrix(rows, cols, i -> random.nextGaussian());
 	}
 	
-	public static TrainingMatrixes generateTrainingMatrixes(int inputRows, int outputRows, int cols) {
-		Matrix input = new Matrix(inputRows, cols);
-		Matrix output = new Matrix(outputRows, cols);
+
+	public static TrainingArrays generateTrainingArrays(int inputRows, int outputRows, int cols) {
+		
+		double[] input = new double[inputRows * cols];
+		double[] output = new double[outputRows * cols];
+		
+		int inputPos = 0;
+		int outputPos = 0;
 		
 		for(int col = 0; col < cols; col++) {
 			int radius = random.nextInt(outputRows);
@@ -32,11 +37,23 @@ public class Util {
 			initialRadius = Math.sqrt(initialRadius);
 			
 			for(int row = 0; row < inputRows; row++) {
-				input.set(row, col, values[row] * radius/initialRadius);
+				input[inputPos++] = values[row] * radius/initialRadius;
 			}
 			
-			output.set(radius, col, 1);
+			output[outputPos + radius] = 1;
+			
+			outputPos += outputRows;
 		}
+		
+		return new TrainingArrays(input, output);
+	}
+	
+	public static TrainingMatrixes generateTrainingMatrixes(int inputRows, int outputRows, int cols) {
+		
+		var io = generateTrainingArrays(inputRows, outputRows, cols);
+		
+		Matrix input = new Matrix(inputRows, cols, io.getInput());
+		Matrix output = new Matrix(outputRows, cols, io.getOutput());
 		
 		return new TrainingMatrixes(input, output);
 	}
