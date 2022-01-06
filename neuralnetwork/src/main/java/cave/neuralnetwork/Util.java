@@ -13,15 +13,15 @@ public class Util {
 	}
 	
 
-	public static TrainingArrays generateTrainingArrays(int inputSize, int outputSize, int cols) {
+	public static TrainingArrays generateTrainingArrays(int inputSize, int outputSize, int numberItems) {
 		
-		double[] input = new double[inputSize * cols];
-		double[] output = new double[outputSize * cols];
+		double[] input = new double[inputSize * numberItems];
+		double[] output = new double[outputSize * numberItems];
 		
 		int inputPos = 0;
 		int outputPos = 0;
 		
-		for(int col = 0; col < cols; col++) {
+		for(int col = 0; col < numberItems; col++) {
 			int radius = random.nextInt(outputSize);
 			
 			double[] values = new double[inputSize];
