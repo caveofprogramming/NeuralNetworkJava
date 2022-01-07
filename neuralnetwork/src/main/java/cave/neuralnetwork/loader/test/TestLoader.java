@@ -8,16 +8,20 @@ public class TestLoader implements cave.neuralnetwork.loader.Loader {
 	
 	private MetaData metaData;
 	
-	private int numberItems = 60_000;
+	private int numberItems = 9;
 	private int inputSize = 500;
 	private int expectedSize = 3;
 	private int numberBatches;
-	private int batchSize = 32;
+	private int batchSize = 0;
 	
 	private int totalItemsRead;
 	private int itemsRead;
 
-	public TestLoader() {
+	public TestLoader(int numberItems, int batchSize) {
+		
+		this.numberItems = numberItems;
+		this.batchSize = batchSize;
+		
 		metaData = new TestMetaData();
 		metaData.setNumberItems(numberItems);
 		
