@@ -47,7 +47,12 @@ public class NeuralNetwork {
 
 	private void runEpoch(Loader loader, boolean trainingMode) {
 		
+		loader.open();
 		
+		var queue = createBatchTasks(loader, trainingMode);
+		consumeBatchTasks(queue, trainingMode);
+		
+		loader.close();
 	}
 
 	@Override
