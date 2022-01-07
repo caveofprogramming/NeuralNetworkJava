@@ -1,6 +1,7 @@
 package cave.neuralnetwork;
 
 import cave.neuralnetwork.loader.Loader;
+import cave.neuralnetwork.loader.MetaData;
 
 public class NeuralNetwork {
 	private Engine engine;
@@ -53,6 +54,27 @@ public class NeuralNetwork {
 		consumeBatchTasks(queue, trainingMode);
 		
 		loader.close();
+	}
+
+	private void consumeBatchTasks(Object queue, boolean trainingMode) {
+		// TODO Auto-generated method stub
+		
+	}
+
+	private Object createBatchTasks(Loader loader, boolean trainingMode) {
+		
+		MetaData metaData = loader.getMetaData();
+		int numberBatches = metaData.getNumberBatches();
+		
+		for(int i = 0; i < numberBatches; i++) {
+			runBatch(loader, trainingMode);
+		}
+		
+		return null;
+	}
+
+	private void runBatch(Loader loader, boolean trainingMode) {
+		
 	}
 
 	@Override
