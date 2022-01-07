@@ -5,7 +5,7 @@ import cave.neuralnetwork.loader.Loader;
 public class NeuralNetwork {
 	private Engine engine;
 	
-	private int epochs;
+	private int epochs = 20;
 	private double learningRate;
 	private double initialLearningRate = 0.01;
 	private double finalLearningRate = 0;
