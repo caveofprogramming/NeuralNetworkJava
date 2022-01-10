@@ -43,6 +43,7 @@ public class TestLoader implements cave.neuralnetwork.loader.Loader {
 
 	@Override
 	public void close() {
+		totalItemsRead = 0;
 	}
 
 	@Override
