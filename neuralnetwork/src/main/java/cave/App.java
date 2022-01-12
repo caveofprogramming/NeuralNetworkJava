@@ -15,9 +15,12 @@ public class App {
 		NeuralNetwork neuralNetwork = new NeuralNetwork();
 		neuralNetwork.add(Transform.DENSE, 100, inputRows);
 		neuralNetwork.add(Transform.RELU);
+		neuralNetwork.add(Transform.DENSE, 50);
+		neuralNetwork.add(Transform.RELU);
 		neuralNetwork.add(Transform.DENSE, outputRows);
 		neuralNetwork.add(Transform.SOFTMAX);
 		
+		neuralNetwork.setThreads(5);
 		neuralNetwork.setEpochs(20);
 		neuralNetwork.setLearningRates(0.02, 0);
 		

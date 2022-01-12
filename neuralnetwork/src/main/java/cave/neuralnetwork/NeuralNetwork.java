@@ -28,6 +28,10 @@ public class NeuralNetwork {
 	public void setThreads(int threads) {
 		this.threads = threads;
 	}
+	
+	public void setScaleInitialWeights(double scale) {
+		engine.setScaleInitialWeights(scale);
+	}
 
 	public void add(Transform transform, double... params) {
 		engine.add(transform, params);
