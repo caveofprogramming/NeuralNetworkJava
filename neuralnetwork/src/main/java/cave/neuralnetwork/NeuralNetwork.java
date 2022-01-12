@@ -78,9 +78,17 @@ public class NeuralNetwork {
 		
 		int index = 0;
 		
+		double averageLoss = 0;
+		double averagePercentCorrect = 0;
+			
 		for(var batch: batches) {
 			try {
 				var batchResult = batch.get();
+				
+				if(!trainingMode) {
+					averageLoss += batchResult.getLoss();
+					averagePercentCorrect += batchResult.getPercentCorrect();
+				}
 			} catch (Exception e) {
 				throw new RuntimeException("Execution error: ", e);
 			} 
@@ -92,7 +100,12 @@ public class NeuralNetwork {
 			}
 		}
 		
-		
+		if(!trainingMode) {
+			averageLoss /= batches.size();
+			averagePercentCorrect /= batches.size();
+			
+			System.out.printf("Loss: %.3f -- Percent correct: %.2f", averageLoss, averagePercentCorrect);
+		}
 
 	}
 
