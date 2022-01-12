@@ -211,6 +211,11 @@ public class NeuralNetwork implements Serializable {
 		
 		return neuralNetwork;
 	}
+	
+	public Object readResolve() {
+		this.lock = new Object();
+		return this;
+	}
 
 }
 
