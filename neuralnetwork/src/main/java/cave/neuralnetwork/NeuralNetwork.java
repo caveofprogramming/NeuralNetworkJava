@@ -1,7 +1,6 @@
 package cave.neuralnetwork;
 
 import java.util.LinkedList;
-import java.util.concurrent.ExecutionException;
 import java.util.concurrent.Executors;
 import java.util.concurrent.Future;
 
@@ -14,12 +13,13 @@ public class NeuralNetwork {
 	private Engine engine;
 
 	private int epochs = 20;
-	private double learningRate;
 	private double initialLearningRate = 0.01;
-	private double finalLearningRate = 0;
+	private double finalLearningRate = 0.001;
+	private int threads = 2;
+	
+	private double learningRate;
 	private Object lock = new Object();
 
-	private int threads = 2;
 
 	public NeuralNetwork() {
 		engine = new Engine();
@@ -164,7 +164,18 @@ public class NeuralNetwork {
 
 	@Override
 	public String toString() {
-		return engine.toString();
+		StringBuilder sb = new StringBuilder();
+	
+		sb.append(String.format("Epochs: %d\n", epochs));
+		sb.append(String.format("Initial learning rate: %.5f\n", initialLearningRate));
+		sb.append(String.format("Final learning rate: %.5f\n", finalLearningRate));
+		sb.append(String.format("Threads: %d\n", threads));
+		
+		sb.append("\nEngine Configuration");
+		sb.append("\n--------------------\n");
+		sb.append(engine);
+	
+		return sb.toString();
 	}
 
 }
