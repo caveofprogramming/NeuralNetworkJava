@@ -1,11 +1,13 @@
 package cave.neuralnetwork;
 
+import java.io.Serializable;
 import java.util.LinkedList;
 import java.util.Random;
 
 import cave.matrix.Matrix;
 
-public class Engine {
+public class Engine implements Serializable {
+	private static final long serialVersionUID = 1L;
 	private LinkedList<Transform> transforms = new LinkedList<>();
 	private LinkedList<Matrix> weights = new LinkedList<>();
 	private LinkedList<Matrix> biases = new LinkedList<>();

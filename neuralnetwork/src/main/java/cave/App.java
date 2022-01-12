@@ -21,7 +21,7 @@ public class App {
 		neuralNetwork.add(Transform.SOFTMAX);
 		
 		neuralNetwork.setThreads(5);
-		neuralNetwork.setEpochs(20);
+		neuralNetwork.setEpochs(1);
 		neuralNetwork.setLearningRates(0.02, 0.001);
 		System.out.println(neuralNetwork);
 		
@@ -30,6 +30,7 @@ public class App {
 		
 		neuralNetwork.fit(trainLoader, testLoader);
 		
+		neuralNetwork.save("neural1.net");
 		
 	}
 
