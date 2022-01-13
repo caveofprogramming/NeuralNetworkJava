@@ -11,6 +11,8 @@ public class App {
 		
 		String filename = "neural1.net";
 		
+		//System.out.println(Runtime.getRuntime().availableProcessors());
+		
 		NeuralNetwork neuralNetwork = NeuralNetwork.load(filename);
 		
 		if(neuralNetwork == null) {
@@ -27,7 +29,7 @@ public class App {
 			neuralNetwork.add(Transform.DENSE, outputRows);
 			neuralNetwork.add(Transform.SOFTMAX);
 			
-			neuralNetwork.setThreads(5);
+			neuralNetwork.setThreads(4);
 			neuralNetwork.setEpochs(100);
 			neuralNetwork.setLearningRates(0.02, 0.001);
 		}

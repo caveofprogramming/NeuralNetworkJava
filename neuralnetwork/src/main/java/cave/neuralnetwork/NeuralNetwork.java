@@ -53,6 +53,14 @@ public class NeuralNetwork implements Serializable {
 	public void setEpochs(int epochs) {
 		this.epochs = epochs;
 	}
+	
+	public double[] predict(double[] inputData) {
+		
+		Matrix input = new Matrix(inputData.length, 1, i->inputData[i]);
+		
+		BatchResult batchResult = engine.runForwards(input);
+		return batchResult.getOutput().get();
+	}
 
 	public void fit(Loader trainLoader, Loader evalLoader) {
 
@@ -60,7 +68,7 @@ public class NeuralNetwork implements Serializable {
 
 		for (int epoch = 0; epoch < epochs; epoch++) {
 
-			System.out.printf("Epoch %3d ", epoch);
+			System.out.printf("Epoch %3d ", epoch + 1);
 
 			runEpoch(trainLoader, true);
 
