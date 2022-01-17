@@ -14,13 +14,21 @@ public class App {
 			return;
 		}
 		
-		final String trainImages = "train-images-idx3-ubyte";
-		final String trainLabels = "train-labels-idx1-ubyte";
-		final String testImages = "t10k-images-idx3-ubyte";
-		final String testLabels = "t10k-labels-idx1-ubyte";
+		String directory = args[0];
+		
+		final String trainImages = String.format("%s%s%s", directory, File.separator,"train-images-idx3-ubyte");
+		final String trainLabels = String.format("%s%s%s", directory, File.separator,"train-labels-idx1-ubyte");
+		final String testImages = String.format("%s%s%s", directory, File.separator,"t10k-images-idx3-ubyte");
+		final String testLabels = String.format("%s%s%s", directory, File.separator,"t10k-labels-idx1-ubyte");
 	
 		Loader trainLoader = new ImageLoader(trainImages, trainLabels, 32);
 		Loader testLoader = new ImageLoader(testImages, testLabels, 32);
+		
+		trainLoader.open();
+		testLoader.open();
+		
+		trainLoader.close();
+		testLoader.close();
 	}
 
 }
