@@ -2,6 +2,7 @@ package cave.neuralnetwork.loader.image;
 
 import java.io.DataInputStream;
 import java.io.FileInputStream;
+import java.io.IOException;
 
 import cave.neuralnetwork.loader.BatchData;
 import cave.neuralnetwork.loader.Loader;
@@ -38,6 +39,25 @@ public class ImageLoader implements Loader {
 			throw new LoaderException("Cannot open " + labelFileName, e);
 		}
 		
+		readMetaData();
+		return null;
+	}
+	
+	private MetaData readMetaData() {
+		
+		try {
+			int magicLabelNumber = dsLabels.readInt();
+			
+			if(magicLabelNumber != 2049) {
+				throw new LoaderException("Label file " + labelFileName + " has wrong format.");
+			}
+			
+			int numberLabels = dsLabels.readInt();
+			
+			System.out.println("Number labels: " + numberLabels);
+		} catch (IOException e) {
+			throw new LoaderException("Unable to read " + labelFileName, e);
+		}
 		return null;
 	}
 
