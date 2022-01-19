@@ -18,7 +18,7 @@ public class ImageLoader implements Loader {
 	private DataInputStream dsLabels;
 
 	private ImageMetaData metaData;
-	
+
 	private Lock readLock = new ReentrantLock();
 
 	public ImageLoader(String imageFileName, String labelFileName, int batchSize) {
@@ -91,7 +91,7 @@ public class ImageLoader implements Loader {
 		}
 
 		metaData.setExpectedSize(10);
-		metaData.setNumberBatches((int)Math.ceil((double) numberItems) / batchSize);
+		metaData.setNumberBatches((int) Math.ceil((double) numberItems) / batchSize);
 
 		return metaData;
 	}
@@ -123,24 +123,23 @@ public class ImageLoader implements Loader {
 	@Override
 	public BatchData readBatch() {
 		readLock.lock();
-		
+
 		try {
 			ImageBatchData batchData = new ImageBatchData();
-			
+
 			int inputItemsRead = readInputBatch(batchData);
 			int expectedItemsRead = readExpectedBatch(batchData);
-			
-			if(inputItemsRead != expectedItemsRead) {
+
+			if (inputItemsRead != expectedItemsRead) {
 				throw new LoaderException("Mismatch between images read and labels read.");
 			}
-			
+
 			metaData.setItemsRead(inputItemsRead);
-			
+
 			return batchData;
-		}
-		finally {
+		} finally {
 			readLock.unlock();
-		}		
+		}
 	}
 
 	private int readExpectedBatch(ImageBatchData batchData) {
@@ -149,7 +148,27 @@ public class ImageLoader implements Loader {
 	}
 
 	private int readInputBatch(ImageBatchData batchData) {
-		// TODO Auto-generated method stub
+
+		try {
+			var totalItemsRead = metaData.getTotalItemsRead();
+			var numberItems = metaData.getNumberItems();
+
+			var numberToRead = Math.min(numberItems - totalItemsRead, batchSize);
+
+			var inputSize = metaData.getInputSize();
+			var numberBytesToRead = numberToRead * inputSize;
+
+			byte[] imageData = new byte[numberBytesToRead];
+
+			var numberRead = dsImages.read(imageData, 0, numberBytesToRead);
+			
+			if(numberRead != numberBytesToRead) {
+				throw new LoaderException("Couldn't read sufficient bytes from image data");
+			}
+		} catch (IOException e) {
+			throw new LoaderException("Error occurred reading image data.", e);
+		}
+
 		return 0;
 	}
 
