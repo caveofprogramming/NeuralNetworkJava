@@ -2,7 +2,9 @@ package cave;
 
 import java.io.File;
 
+import cave.neuralnetwork.loader.BatchData;
 import cave.neuralnetwork.loader.Loader;
+import cave.neuralnetwork.loader.MetaData;
 import cave.neuralnetwork.loader.image.ImageLoader;
 
 public class App {
@@ -25,7 +27,11 @@ public class App {
 		Loader testLoader = new ImageLoader(testImages, testLabels, 32);
 		
 		trainLoader.open();
-		testLoader.open();
+		MetaData metaData = testLoader.open();
+		
+		for(int i = 0; i < metaData.getNumberBatches(); i++) {
+			BatchData batchData = testLoader.readBatch();
+		}
 		
 		trainLoader.close();
 		testLoader.close();
