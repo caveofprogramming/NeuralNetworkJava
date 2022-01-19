@@ -165,11 +165,21 @@ public class ImageLoader implements Loader {
 			if(numberRead != numberBytesToRead) {
 				throw new LoaderException("Couldn't read sufficient bytes from image data");
 			}
+			
+			double[] data = new double[numberBytesToRead];
+			
+			for(int i = 0; i < numberBytesToRead; i++) {
+				data[i] = (imageData[i] & 0xFF)/255.0;
+				
+				System.out.println(data[i]);
+			}
+			
+			batchData.setInputBatch(data);
+			
+			return numberToRead;
 		} catch (IOException e) {
 			throw new LoaderException("Error occurred reading image data.", e);
 		}
-
-		return 0;
 	}
 
 }
