@@ -3,6 +3,8 @@ package cave.neuralnetwork.loader.image;
 import java.io.DataInputStream;
 import java.io.FileInputStream;
 import java.io.IOException;
+import java.util.concurrent.locks.Lock;
+import java.util.concurrent.locks.ReentrantLock;
 
 import cave.neuralnetwork.loader.BatchData;
 import cave.neuralnetwork.loader.Loader;
@@ -16,6 +18,8 @@ public class ImageLoader implements Loader {
 	private DataInputStream dsLabels;
 
 	private ImageMetaData metaData;
+	
+	private Lock readLock = new ReentrantLock();
 
 	public ImageLoader(String imageFileName, String labelFileName, int batchSize) {
 		this.imageFileName = imageFileName;
@@ -82,8 +86,6 @@ public class ImageLoader implements Loader {
 			metaData.setWidth(width);
 
 			metaData.setInputSize(width * height);
-
-			System.out.println(height + " , " + width);
 		} catch (IOException e) {
 			throw new LoaderException("Unable to read " + imageFileName, e);
 		}
@@ -120,8 +122,35 @@ public class ImageLoader implements Loader {
 
 	@Override
 	public BatchData readBatch() {
+		readLock.lock();
+		
+		try {
+			ImageBatchData batchData = new ImageBatchData();
+			
+			int inputItemsRead = readInputBatch(batchData);
+			int expectedItemsRead = readExpectedBatch(batchData);
+			
+			if(inputItemsRead != expectedItemsRead) {
+				throw new LoaderException("Mismatch between images read and labels read.");
+			}
+			
+			metaData.setItemsRead(inputItemsRead);
+			
+			return batchData;
+		}
+		finally {
+			readLock.unlock();
+		}		
+	}
+
+	private int readExpectedBatch(ImageBatchData batchData) {
 		// TODO Auto-generated method stub
-		return null;
+		return 0;
+	}
+
+	private int readInputBatch(ImageBatchData batchData) {
+		// TODO Auto-generated method stub
+		return 0;
 	}
 
 }

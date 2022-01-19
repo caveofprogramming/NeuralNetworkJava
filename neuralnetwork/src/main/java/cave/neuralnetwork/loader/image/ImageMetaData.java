@@ -22,4 +22,10 @@ public class ImageMetaData extends AbstractMetaData {
 		this.height = height;
 	}
 
+	@Override
+	public void setItemsRead(int itemsRead) {
+		super.setItemsRead(itemsRead);
+		super.setTotalItemsRead(super.getTotalItemsRead() + itemsRead);
+	}
+
 }
