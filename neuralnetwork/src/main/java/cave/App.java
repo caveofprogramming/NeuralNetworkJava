@@ -1,6 +1,7 @@
 package cave;
 
 import java.io.File;
+import java.io.IOException;
 
 import cave.neuralnetwork.loader.BatchData;
 import cave.neuralnetwork.loader.Loader;
@@ -11,8 +12,21 @@ public class App {
 
 	public static void main(String[] args) {
 		
-		if(args.length == 0 && new File(args[0]).isDirectory()) {
+		if(args.length == 0) {
 			System.out.println("usage: [app] <MNIST DATA DIRECTORY>");
+			return;
+		}
+		
+		File dir = new File(args[0]);
+		
+		if(!dir.isDirectory()) {
+			try {
+				System.out.println(dir.getCanonicalPath() + " is not a directory.");
+			} catch (IOException e) {
+				// TODO Auto-generated catch block
+				e.printStackTrace();
+			}
+			
 			return;
 		}
 		
