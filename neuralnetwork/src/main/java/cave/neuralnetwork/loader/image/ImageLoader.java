@@ -196,7 +196,7 @@ public class ImageLoader implements Loader {
 			double[] data = new double[numberBytesToRead];
 
 			for (int i = 0; i < numberBytesToRead; i++) {
-				data[i] = (imageData[i] & 0xFF) / 255.0;
+				data[i] = (imageData[i] & 0xFF) / 256.0;
 			}
 
 			batchData.setInputBatch(data);
