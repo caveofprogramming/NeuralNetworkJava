@@ -49,13 +49,29 @@ public class ImageWriter {
 
 		ImageMetaData metaData = loader.open();
 		
+		int imageWidth = metaData.getWidth();
+		int imageHeight = metaData.getHeight();
+		
 		for (int i = 0; i < metaData.getNumberBatches(); i++) {
 			BatchData batchData = testLoader.readBatch();
+			
+			var numberImages = metaData.getItemsRead();
+			
+			int horizontalImages = (int)Math.sqrt(numberImages);
+			
+			while(numberImages % horizontalImages != 0) {
+				++horizontalImages;
+			}
+			
+			int verticalImages = numberImages / horizontalImages;
+			
+			int canvasWidth = horizontalImages * imageWidth;
+			int canvasHeight = verticalImages * imageHeight;
 			
 			String montagePath = String.format("montage%d.jpg", i);
 			System.out.println("Writing " + montagePath);
 			
-			var montage = new BufferedImage(900, 900, BufferedImage.TYPE_BYTE_GRAY);
+			var montage = new BufferedImage(canvasWidth, canvasHeight, BufferedImage.TYPE_BYTE_GRAY);
 			
 			try {
 				ImageIO.write(montage, "jpg", new File(montagePath));
