@@ -149,7 +149,7 @@ public class NeuralNetwork implements Serializable {
 
 	private BatchResult runBatch(Loader loader, boolean trainingMode) {
 
-		MetaData metaData = loader.open();
+		MetaData metaData = loader.getMetaData();
 
 		BatchData batchData = loader.readBatch();
 

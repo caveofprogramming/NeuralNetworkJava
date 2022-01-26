@@ -3,7 +3,8 @@ package cave;
 import java.io.File;
 import java.io.IOException;
 
-import cave.neuralnetwork.loader.BatchData;
+import cave.neuralnetwork.NeuralNetwork;
+import cave.neuralnetwork.Transform;
 import cave.neuralnetwork.loader.Loader;
 import cave.neuralnetwork.loader.MetaData;
 import cave.neuralnetwork.loader.image.ImageLoader;
@@ -11,6 +12,8 @@ import cave.neuralnetwork.loader.image.ImageLoader;
 public class App {
 
 	public static void main(String[] args) {
+		
+		final String filename = "mnistNeural0.net";
 		
 		if(args.length == 0) {
 			System.out.println("usage: [app] <MNIST DATA DIRECTORY>");
@@ -40,15 +43,40 @@ public class App {
 		Loader trainLoader = new ImageLoader(trainImages, trainLabels, 32);
 		Loader testLoader = new ImageLoader(testImages, testLabels, 32);
 		
-		trainLoader.open();
-		MetaData metaData = testLoader.open();
+		MetaData metaData = trainLoader.open();
+		int inputSize = metaData.getInputSize();
+		int outputSize = metaData.getExpectedSize();
+		trainLoader.close();
 		
-		for(int i = 0; i < metaData.getNumberBatches(); i++) {
-			BatchData batchData = testLoader.readBatch();
+		NeuralNetwork neuralNetwork = NeuralNetwork.load(filename);
+		
+		if(neuralNetwork == null) {
+			System.out.println("Unable to load neural network from saved. Creating from scratch.");
+			
+			neuralNetwork = new NeuralNetwork();
+			neuralNetwork.add(Transform.DENSE, 200, inputSize);
+			neuralNetwork.add(Transform.RELU);
+			neuralNetwork.add(Transform.DENSE, outputSize);
+			neuralNetwork.add(Transform.SOFTMAX);
+			
+			neuralNetwork.setThreads(4);
+			neuralNetwork.setEpochs(100);
+			neuralNetwork.setLearningRates(0.02, 0.001);
+		}
+		else {
+			System.out.println("Loaded from " + filename);
 		}
 		
-		trainLoader.close();
-		testLoader.close();
+		System.out.println(neuralNetwork);
+
+		neuralNetwork.fit(trainLoader, testLoader);
+		
+		if(neuralNetwork.save(filename)) {
+			System.out.println("Saved to " + filename);
+		}
+		else {
+			System.out.println("Unable to save to " + filename);
+		}
 	}
 
 }
