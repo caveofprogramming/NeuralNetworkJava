@@ -97,7 +97,7 @@ public class Engine implements Serializable {
 			var weightAdjust = error.multiply(input.transpose());
 			var biasAdjust = error.averageColumn();
 			
-			double rate = learningRate/weight.getCols();
+			double rate = learningRate/input.getCols();
 			
 			weight.modify((index, value)->value - rate * weightAdjust.get(index));
 			bias.modify((row, col, value)->value - learningRate * biasAdjust.get(row));
