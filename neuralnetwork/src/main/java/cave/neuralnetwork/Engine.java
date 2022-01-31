@@ -19,6 +19,10 @@ public class Engine implements Serializable {
 	
 	public void setScaleInitialWeights(double scale) {
 		scaleInitialWeights = scale;
+		
+		if(weights.size() != 0) {
+			throw new RuntimeException("Must call setScaleInitialWeights BEFORE adding transforms!");
+		}
 	}
 	
 	public void evaluate(BatchResult batchResult, Matrix expected) {
