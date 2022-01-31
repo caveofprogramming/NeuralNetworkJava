@@ -36,13 +36,17 @@ public class ImageWriter {
 
 	private int convertOneHotToInt(double[] labelData, int offset, int oneHotSize) {
 
+		double maxValue = 0;
+		int maxIndex = 0;
+
 		for (int i = 0; i < oneHotSize; i++) {
-			if (Math.abs(labelData[offset + i] - 1) < 0.001) {
-				return i;
+			if(labelData[offset + i] > maxValue) {
+				maxValue = labelData[offset + i];
+				maxIndex = i;
 			}
 		}
-
-		throw new RuntimeException("Invalid one hot vector");
+		
+		return maxIndex;
 	}
 
 	public void run(String directory) {
@@ -118,22 +122,22 @@ public class ImageWriter {
 			}
 
 			var labelData = batchData.getExpectedBatch();
-			
+
 			StringBuilder sb = new StringBuilder();
-						
+
 			for (int labelIndex = 0; labelIndex < numberImages; labelIndex++) {
-				
-				if(labelIndex % horizontalImages == 0) {
+
+				if (labelIndex % horizontalImages == 0) {
 					sb.append("\n");
 				}
-				
+
 				int label = convertOneHotToInt(labelData, labelIndex * labelSize, labelSize);
 				sb.append(String.format("%d ", label));
 			}
 
 			String labelPath = String.format("labels%d.txt", i);
 			System.out.println("Writing " + labelPath);
-			
+
 			try {
 				FileWriter fw = new FileWriter(labelPath);
 				fw.write(sb.toString());
