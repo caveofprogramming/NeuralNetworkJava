@@ -42,12 +42,12 @@ public class ImageWriter {
 		int maxIndex = 0;
 
 		for (int i = 0; i < oneHotSize; i++) {
-			if(labelData[offset + i] > maxValue) {
+			if (labelData[offset + i] > maxValue) {
 				maxValue = labelData[offset + i];
 				maxIndex = i;
 			}
 		}
-		
+
 		return maxIndex;
 	}
 
@@ -65,7 +65,7 @@ public class ImageWriter {
 		ImageLoader loader = testLoader;
 
 		ImageMetaData metaData = loader.open();
-		
+
 		var neuralNetwork = NeuralNetwork.load("mnistNeural0.net");
 
 		int imageWidth = metaData.getWidth();
@@ -92,24 +92,24 @@ public class ImageWriter {
 			String montagePath = String.format("montage%d.jpg", i);
 			System.out.println("Writing " + montagePath);
 
-			var montage = new BufferedImage(canvasWidth, canvasHeight, BufferedImage.TYPE_BYTE_GRAY);
+			var montage = new BufferedImage(canvasWidth, canvasHeight, BufferedImage.TYPE_INT_RGB);
 
 			double[] pixelData = batchData.getInputBatch();
 			double[] labelData = batchData.getExpectedBatch();
 
 			int imageSize = imageWidth * imageHeight;
-			
+
 			boolean[] correct = new boolean[numberImages];
-			
-			for(int n = 0; n < numberImages; n++) {
+
+			for (int n = 0; n < numberImages; n++) {
 				double[] singleImage = Arrays.copyOfRange(pixelData, n * imageSize, (n + 1) * imageSize);
 				double[] singleLabel = Arrays.copyOfRange(labelData, n * labelSize, (n + 1) * labelSize);
-				
+
 				double[] predictedLabel = neuralNetwork.predict(singleImage);
-				
+
 				int predicted = convertOneHotToInt(predictedLabel, 0, labelSize);
 				int actual = convertOneHotToInt(singleLabel, 0, labelSize);
-				
+
 				correct[n] = predicted == actual;
 			}
 
@@ -128,7 +128,14 @@ public class ImageWriter {
 
 				double pixelValue = pixelData[pixelIndex];
 				int color = (int) (0x100 * pixelValue);
-				int pixelColor = (color << 16) + (color << 8) + color;
+				int pixelColor = 0;
+
+				if (correct[imageNumber]) {
+					pixelColor = color;
+				}
+				else {
+					pixelColor = (color << 16);
+				}
 
 				montage.setRGB(x, y, pixelColor);
 			}
@@ -139,8 +146,6 @@ public class ImageWriter {
 				// TODO Auto-generated catch block
 				e.printStackTrace();
 			}
-
-			
 
 			StringBuilder sb = new StringBuilder();
 
